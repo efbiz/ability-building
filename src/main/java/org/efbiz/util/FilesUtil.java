@@ -28,7 +28,6 @@ public class FilesUtil {
    * read text file content, return string split by "\n"
    *
    * @param filePathAndName String file name with absolute path
-   *
    * @return String text content
    */
   public static String readAll(String filePathAndName) {
@@ -40,7 +39,6 @@ public class FilesUtil {
    *
    * @param filePathAndName String file name with absolute path
    * @param encoding String file encoding
-   *
    * @return String text content
    */
   public static String readAll(String filePathAndName, String encoding) {
@@ -84,7 +82,6 @@ public class FilesUtil {
    *
    * @param filePathAndName String file name with absolute path
    * @param encoding String file encoding
-   *
    * @return String text content of the line
    */
   public static String readLine(String filePathAndName, long lineIndex, String encoding) {
@@ -133,7 +130,6 @@ public class FilesUtil {
    * read the first line content of text file
    *
    * @param filePathAndName String file name with absolute path
-   *
    * @return String text content of the first line
    */
   public static String readLine(String filePathAndName) {
@@ -144,7 +140,6 @@ public class FilesUtil {
    * read the specified line content of text file
    *
    * @param filePathAndName String file name with absolute path
-   *
    * @return String text content of the line
    */
   public static String readLine(String filePathAndName, long rowIndex) {
@@ -156,7 +151,6 @@ public class FilesUtil {
    *
    * @param filePathAndName String file path and name
    * @param fileContent String file content
-   *
    * @return boolean flag to indicate create success or not
    */
   public static boolean newFile(String filePathAndName, String fileContent) {
@@ -169,7 +163,6 @@ public class FilesUtil {
    * @param filePathAndName String file path and name
    * @param fileContent String file content
    * @param flag boolean flag to indicate is append, true to append, false to create
-   *
    * @return boolean flag to indicate create success or not
    */
   public static boolean newFile(String filePathAndName, String fileContent, boolean flag) {
@@ -196,7 +189,6 @@ public class FilesUtil {
    * @param filePathAndName String file path and name
    * @param fileContent String file content
    * @param encoding the specified encoding, such as GBK or UTF-8
-   *
    * @return boolean flag to indicate create success or not
    */
   public static boolean newFile(String filePathAndName, String fileContent, String encoding) {
@@ -236,7 +228,6 @@ public class FilesUtil {
    * create folder
    *
    * @param folderPath String folder path
-   *
    * @return String created folder path
    */
   public static String newFolder(String folderPath) {
@@ -442,7 +433,6 @@ public class FilesUtil {
    *
    * @param folderPath the path to create multi-level directory
    * @param paths directories, split by '|'
-   *
    * @return String the created directory path
    */
   public static String createFolders(String folderPath, String paths) {
@@ -471,7 +461,6 @@ public class FilesUtil {
    * create multi-level directory
    *
    * @param folderPath the multi-level directory to create
-   *
    * @return String the created directory path
    */
   public static String createFolders(String folderPath) {
@@ -493,7 +482,6 @@ public class FilesUtil {
    * check if the specified file exists
    *
    * @param fileName the name of the file to be checked
-   *
    * @return boolean true if exits, false if not
    */
   public static boolean isFileExist(String fileName) {
@@ -504,7 +492,6 @@ public class FilesUtil {
    * get all files in a folder
    *
    * @param path String folder path
-   *
    * @return List<File>
    */
   public static List<File> getAllFiles(String path) {
@@ -540,7 +527,6 @@ public class FilesUtil {
    *
    * @param path String folder path
    * @param suffix String the specified suffix
-   *
    * @return List<File>
    */
   public static List<File> getAllFiles(String path, String suffix) {
@@ -592,7 +578,6 @@ public class FilesUtil {
    * @param path String folder path
    * @param suffix String the specified suffix
    * @param isDepth boolean is need to scan all subdirectories
-   *
    * @return List<String>
    */
   public static List<String> getAllFileNames(String path, String suffix, boolean isDepth) {
@@ -637,7 +622,6 @@ public class FilesUtil {
    * get all file names in a folder
    *
    * @param path String folder path
-   *
    * @return List<String>
    */
   public static List<String> getAllFileNames(String path) {
@@ -668,8 +652,7 @@ public class FilesUtil {
    * get all file names in a folder
    *
    * @param path String folder path
-   *
-   * @return Map<String   ,       String>
+   * @return Map<String               ,                               String>
    */
   public static Map<String, String> getAllFileNamesByMap(String path) {
     Map<String, String> fileNamesMap = new HashMap<String, String>();
@@ -699,7 +682,6 @@ public class FilesUtil {
    * get all file names in a folder
    *
    * @param path String folder path
-   *
    * @return String[]
    */
   public static String[] getAllFileNamesByPath(String path) {
@@ -730,7 +712,6 @@ public class FilesUtil {
    * remove suffix of a file
    *
    * @param fileName file name
-   *
    * @return String file name without suffix
    */
   public static String getNameNoSuffix(String fileName) {
@@ -745,7 +726,6 @@ public class FilesUtil {
    * return file name with suffix
    *
    * @param fileName file path and name
-   *
    * @return String file name with suffix
    */
   public static String getFileName(String fileName) {
@@ -762,7 +742,6 @@ public class FilesUtil {
    * check if directory exists, if not exist, create it, return false if create failed
    *
    * @param path folder path
-   *
    * @return boolean
    */
   public static boolean isExist(String path) {
@@ -782,7 +761,6 @@ public class FilesUtil {
    * check if directory exists
    *
    * @param path folder path
-   *
    * @return boolean
    */
   public static boolean isExistNotCreate(String path) {
@@ -796,7 +774,6 @@ public class FilesUtil {
    * @param fileName file name
    * @param srcPath source path
    * @param dstPath destination path
-   *
    * @return boolean
    */
   public boolean copyTheFile(String fileName, String srcPath, String dstPath) {
@@ -847,7 +824,6 @@ public class FilesUtil {
    * @param fileName file name
    * @param srcPath source path
    * @param dstPath destination path
-   *
    * @return boolean
    */
   public boolean moveTheFile(String fileName, String srcPath, String dstPath) {

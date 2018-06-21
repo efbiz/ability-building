@@ -19,33 +19,32 @@ import java.io.IOException;
  * @GitHub: https://github.com/vector4wang
  * @CSDN: http://blog.csdn.net/qqhjqs?viewmode=contents
  * @BLOG: http://vector4wang.tk
- * @wxid: BMHJQS
- * 参考:http://neverflyaway.iteye.com/blog/2301571  http://blog.csdn.net/u010935920/article/details/71024018
+ * @wxid: BMHJQS 参考:http://neverflyaway.iteye.com/blog/2301571  http://blog.csdn.net/u010935920/article/details/71024018
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private Logger logger = LogManager.getLogger(GlobalExceptionHandler.class);
+  private Logger logger = LogManager.getLogger(GlobalExceptionHandler.class);
 
-    @ExceptionHandler(value = { IOException.class , RuntimeException.class })
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ModelAndView exception(Exception exception, WebRequest request) {
-        logger.info("Catch an exception", exception);
-        return  new ModelAndView("500");
-    }
+  @ExceptionHandler(value = {IOException.class, RuntimeException.class})
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  public ModelAndView exception(Exception exception, WebRequest request) {
+    logger.info("Catch an exception", exception);
+    return new ModelAndView("500");
+  }
 
-    @ExceptionHandler(value = { NoHandlerFoundException.class })
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ModelAndView noMapping(Exception exception, WebRequest request) {
-        logger.info("No mapping exception", exception);
-        return  new ModelAndView("404");
-    }
+  @ExceptionHandler(value = {NoHandlerFoundException.class})
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public ModelAndView noMapping(Exception exception, WebRequest request) {
+    logger.info("No mapping exception", exception);
+    return new ModelAndView("404");
+  }
 
-    @ExceptionHandler(value = {MultipartException.class})
-    public ModelAndView fileError(Exception exception, WebRequest request){
-        logger.error("上传文件异常，信息:{}",exception.getMessage());
-        System.out.println(exception.getMessage());
-        return  new ModelAndView("/error");
-    }
+  @ExceptionHandler(value = {MultipartException.class})
+  public ModelAndView fileError(Exception exception, WebRequest request) {
+    logger.error("上传文件异常，信息:{}", exception.getMessage());
+    System.out.println(exception.getMessage());
+    return new ModelAndView("/error");
+  }
 }
 

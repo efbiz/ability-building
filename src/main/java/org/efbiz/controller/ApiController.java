@@ -27,35 +27,37 @@ import java.net.URL;
 @Log4j2
 public class ApiController {
 
-    @Resource
-    private Blog2mdService csdn2mdService;
+  @Resource
+  private Blog2mdService csdn2mdService;
 
-    @RequestMapping(value = "/html2md", method = RequestMethod.GET)
-    public String toPage() {
-        return "/html2md";
-    }
+  @RequestMapping(value = "/html2md", method = RequestMethod.GET)
+  public String toPage() {
+    return "/html2md";
+  }
 
-    @RequestMapping(value = "/convert", method = RequestMethod.POST)
-    @ResponseBody
-    public BaseResp<?> convert(@RequestBody ParamVo paramVo) {
-        try {
-            String result = "";
-            if (paramVo.getUrl().isEmpty() && paramVo.getHtml().isEmpty()) {
-                return new BaseResp(ResultStatus.error_invalid_argument, ResultStatus.error_invalid_argument.getErrorMsg());
-            }
-            if (!paramVo.getUrl().isEmpty()) {
-                result = csdn2mdService.convert(new URL(paramVo.getUrl()));
-                FilesUtil.newFile("D:\\md.md",result,false);
-                return new BaseResp(ResultStatus.SUCCESS, result);
-            }
-            if(!paramVo.getHtml().isEmpty()){
-                result = csdn2mdService.convert(paramVo.getHtml());
-                return new BaseResp(ResultStatus.SUCCESS, result);
-            }
-        } catch (Exception e) {
-            log.error("转换失败",e);
-            return new BaseResp(ResultStatus.http_status_internal_server_error, ResultStatus.http_status_internal_server_error.getErrorMsg());
-        }
-        return null;
+  @RequestMapping(value = "/convert", method = RequestMethod.POST)
+  @ResponseBody
+  public BaseResp<?> convert(@RequestBody ParamVo paramVo) {
+    try {
+      String result = "";
+      if (paramVo.getUrl().isEmpty() && paramVo.getHtml().isEmpty()) {
+        return new BaseResp(ResultStatus.error_invalid_argument,
+            ResultStatus.error_invalid_argument.getErrorMsg());
+      }
+      if (!paramVo.getUrl().isEmpty()) {
+        result = csdn2mdService.convert(new URL(paramVo.getUrl()));
+
+        return new BaseResp(ResultStatus.SUCCESS, result);
+      }
+      if (!paramVo.getHtml().isEmpty()) {
+        result = csdn2mdService.convert(paramVo.getHtml());
+        return new BaseResp(ResultStatus.SUCCESS, result);
+      }
+    } catch (Exception e) {
+      log.error("转换失败", e);
+      return new BaseResp(ResultStatus.http_status_internal_server_error,
+          ResultStatus.http_status_internal_server_error.getErrorMsg());
     }
+    return null;
+  }
 }

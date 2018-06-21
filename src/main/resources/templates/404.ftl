@@ -2,7 +2,7 @@
 
 <html lang="en">
 <head>
-    <title>404</title>
+  <title>404</title>
 </head>
 <body>
 404

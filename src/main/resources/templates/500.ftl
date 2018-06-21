@@ -2,7 +2,7 @@
 
 <html lang="en">
 <head>
-    <title>500</title>
+  <title>500</title>
 </head>
 <body>
 500

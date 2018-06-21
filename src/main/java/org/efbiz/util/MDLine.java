@@ -1,6 +1,7 @@
 package org.efbiz.util;
 
 public class MDLine {
+
   private int level = 0;
   private MDLineType type;
   private StringBuilder content;
@@ -72,6 +73,7 @@ public class MDLine {
     level = Math.max(i, 0);
   }
 
+  @Override
   public String toString() {
     StringBuilder newLine = new StringBuilder();
     for (int j = 0; j < getLevel(); j++) {
