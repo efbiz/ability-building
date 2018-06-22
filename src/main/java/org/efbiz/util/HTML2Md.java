@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -104,7 +105,9 @@ public class HTML2Md {
       String removeCss) {
     Document doc = Jsoup.parse(html, charset);
     Element content = doc.select(choiceCss).get(0);
-    content.select(removeCss).remove();
+    if(StringUtils.isNoneBlank(removeCss)){
+      content.select(removeCss).remove();
+    }
     Document parse = Jsoup.parse(content.html());
     return getTextContent(parse);
   }
@@ -224,8 +227,11 @@ public class HTML2Md {
       return getTextContent(doc);
     }
   }
+  private static String getTextContent( Element element) {
+    return  getTextContent(null,element);
+  }
 
-  private static String getTextContent(Element element) {
+  private static String getTextContent(String fileDir,Element element) {
     ArrayList<MDLine> lines = new ArrayList<MDLine>();
     List<Node> children = element.childNodes();
     for (Node child : children) {
@@ -242,7 +248,7 @@ public class HTML2Md {
 
       } else if (child instanceof Element) {
         Element childElement = (Element) child;
-        processElement(childElement, lines);
+        processElement(fileDir,childElement, lines);
       } else {
         System.out.println();
       }
@@ -269,6 +275,10 @@ public class HTML2Md {
   }
 
   private static void processElement(Element element, ArrayList<MDLine> lines) {
+    processElement(null,element,lines);
+  }
+
+  private static void processElement(String fileDir,Element element, ArrayList<MDLine> lines) {
     Tag tag = element.tag();
 
     String tagName = tag.getName();
@@ -287,9 +297,9 @@ public class HTML2Md {
     } else if (tagName.equals("hr")) {
       hr(lines);
     } else if (tagName.equals("a")) {
-      a(element, lines);
+      a(fileDir,element, lines);
     } else if (tagName.equals("img")) {
-      img(element, lines);
+      img(fileDir,element, lines);
     } else if (tagName.equals("code")) {
       code(element, lines);
     } else if (tagName.equals("ul")) {
@@ -399,7 +409,7 @@ public class HTML2Md {
     lines.add(new MDLine(MDLine.MDLineType.None, 0, ""));
   }
 
-  private static void a(Element element, ArrayList<MDLine> lines) {
+  private static void a(String fileDir, Element element, ArrayList<MDLine> lines) {
     MDLine line = getLastLine(lines);
     line.append("[");
     line.append(getTextContent(element));
@@ -416,7 +426,7 @@ public class HTML2Md {
     line.append(")");
   }
 
-  private static void img(Element element, ArrayList<MDLine> lines) {
+  private static void img(String fileDir, Element element, ArrayList<MDLine> lines) {
     MDLine line = getLastLine(lines);
 
     line.append("![");

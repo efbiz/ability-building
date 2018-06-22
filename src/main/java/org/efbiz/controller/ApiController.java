@@ -1,11 +1,15 @@
 package org.efbiz.controller;
 
+import org.efbiz.factory.BlogFactory;
+import org.efbiz.model.Blog;
 import org.efbiz.service.Blog2mdService;
 import org.efbiz.util.BaseResp;
 import org.efbiz.util.FilesUtil;
+import org.efbiz.util.JsoupUtil;
 import org.efbiz.util.ParamVo;
 import org.efbiz.util.ResultStatus;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +32,10 @@ import java.net.URL;
 public class ApiController {
 
   @Resource
-  private Blog2mdService csdn2mdService;
+  private Blog2mdService blog2mdService;
+
+  @Autowired
+  private BlogFactory blogFactory;
 
   @RequestMapping(value = "/html2md", method = RequestMethod.GET)
   public String toPage() {
@@ -45,12 +52,14 @@ public class ApiController {
             ResultStatus.error_invalid_argument.getErrorMsg());
       }
       if (!paramVo.getUrl().isEmpty()) {
-        result = csdn2mdService.convert(new URL(paramVo.getUrl()));
-
+        // csdn2mdService.convert(new URL(paramVo.getUrl()));
+        Blog blog  = blogFactory.translateBLog(new URL(paramVo.getUrl()));
+        result = blog.getMdContent();
+        blog2mdService.saveMdFile(blog);
         return new BaseResp(ResultStatus.SUCCESS, result);
       }
       if (!paramVo.getHtml().isEmpty()) {
-        result = csdn2mdService.convert(paramVo.getHtml());
+        result = JsoupUtil.convert(paramVo.getHtml());
         return new BaseResp(ResultStatus.SUCCESS, result);
       }
     } catch (Exception e) {

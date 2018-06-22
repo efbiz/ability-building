@@ -2,12 +2,16 @@ package org.efbiz.model;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.apache.commons.io.IOUtils;
+import org.efbiz.util.DateUtil;
 import org.efbiz.util.HTML2Md;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import lombok.Data;
+import org.efbiz.util.JsoupUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -20,47 +24,41 @@ import org.jsoup.select.Elements;
  * @wxid: thisHJQS
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Blog {
+  protected URL url;
+  protected String title;
+  protected String desc;
+  protected String publishDate;
+  protected List<String> categories;
+  protected List<String> tags;
+  protected String content;
+  protected String rootChoise;
+  protected String[] removeCss;
 
-  public final static String COMMON_TARGET_DIR = "D:\\data\\csdn_blogs";
-  public final static String COMMON_CSDN_CHOICE_CSS = "#article_content";
-  public final static String COMMON_CSDN_REMOVE_CSS = ".dp-highlighter";
-
-  private String title;
-  private String desc;
-  private String publishDate;
-  private List<String> categories;
-  private List<String> tags;
-  private String content;
-
-  public String convert(URL url) throws IOException {
-    return convert(url, "body", null);
-  }
-
-  public String convert(URL url, String choiceCss, String removeCss) throws IOException {
+  public Blog(URL url) throws IOException {
+    this.url = url;
     Document doc = Jsoup.parse(url, 5000);
-    doc.getElementsByTag("script").remove();
-    String content = doc.select(choiceCss).toString();
-    String result = HTML2Md.convertHtml2Content(content, "utf-8", choiceCss, removeCss);
-    return result;
+    this.rootChoise = "body";
+    this.publishDate = DateUtil.getNowDate();
+    this.title = doc.title();
+    this.desc = doc.title();
+    String[] removeCss = {"javascript"};
+    this.removeCss = removeCss;
+    this.content = doc.select(this.rootChoise).toString();
   }
 
-  public String convert(String html) {
-    return convert(html, "body", null);
-  }
-
-  public String convert(String html, String choiceCss, String removeCss) {
-    Document doc = Jsoup.parse(html, "utf-8");
-    doc.getElementsByTag("script").remove();
-    Elements select = doc.select(choiceCss);
-    if (select.isEmpty()) {
-      String convert = HTML2Md.convert(html, "utf-8");
-      return convert;
-    } else {
-      String content = select.toString();
-      String result = HTML2Md.convertHtml2Content(content, "utf-8", choiceCss, removeCss);
-      return result;
-    }
+  public Blog(URL url, String rootChoise) throws IOException {
+    this.url = url;
+    Document doc = Jsoup.parse(url, 5000);
+    this.rootChoise = rootChoise;
+    this.publishDate = DateUtil.getNowDate();
+    this.title = doc.title();
+    this.desc = doc.title();
+    String[] removeCss = {"javascript"};
+    this.removeCss = removeCss;
+    this.content = doc.select(rootChoise).toString();
   }
 
   @Override
@@ -75,16 +73,7 @@ public class Blog {
         '}';
   }
 
-  public void buildHexo() throws IOException {
-    StringBuffer sb = getHexoDesc();
-    sb.append(HTML2Md.convertHtml2Content(this.getContent(), "UTF-8", COMMON_CSDN_CHOICE_CSS,
-        COMMON_CSDN_REMOVE_CSS));
-    IOUtils.write(sb.toString(), new FileOutputStream(
-        new File(COMMON_TARGET_DIR + File.separator + this.getTitle() + ".md")));
-  }
-
   public StringBuffer getHexoDesc() {
-    System.out.println("保存博文--->[" + this.getTitle() + "]");
     StringBuffer sb = new StringBuffer();
     sb.append("---");
     sb.append("\r\n");
@@ -113,5 +102,9 @@ public class Blog {
     sb.append("\r\n");
     sb.append("\r\n");
     return sb;
+  }
+
+  public String getMdContent() {
+    return JsoupUtil.convert(this.getContent());
   }
 }

@@ -4,10 +4,17 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.io.IOUtils;
+import org.efbiz.util.DateUtil;
 import org.efbiz.util.HTML2Md;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -16,27 +23,47 @@ public class CSDNBlog extends Blog {
   public final static String HOST_URL = "http://blog.csdn.net/";
   public final static String TOP_XPATH = "#article_toplist .list_item,.article_item";
   public final static String NORMAL_QUERY = "#article_list .list_item,.article_item";
-  public final static String TARGET_DIR = "D:\\data\\csdn_blogs";
   public final static String CSDN_CHOICE_CSS = "#article_content";
   public final static String CSDN_REMOVE_CSS = ".dp-highlighter";
-  public String choiceRoot;
 
-  @Override
-  public String convert(String html) {
-    return super.convert(html, CSDN_CHOICE_CSS, CSDN_REMOVE_CSS);
+  public CSDNBlog(URL url) throws IOException {
+    Document doc = Jsoup.parse(url, 5000);
+    this.title = doc.select(".title-article").text();
+    this.desc = doc.select("#article_details > div.article_title > h1 > span > a").text();
+    if (doc.select(
+        ".time")
+        != null) {
+      this.publishDate = doc.select(
+          ".time")
+          .text();
+    } else {
+      this.publishDate = DateUtil.getNowDate();
+    }
+
+    Elements select = doc.select("#article_details > div.category.clearfix > div.category_r");
+    List<String> cat = new ArrayList<>();
+    for (Element ele : select) {
+      String text = ele.select("label span").get(0).text();
+      int i = text.lastIndexOf("（");
+      if (i >= 0) {
+        String substring = text.substring(0, i);
+        cat.add(substring);
+      } else {
+        cat.add(text);
+      }
+    }
+    this.categories = cat;
+    Elements tagEles = doc
+        .select("#article_details > div.article_manage.clearfix > div.article_l > span > a");
+    List<String> tags = new ArrayList<>();
+    for (Element ele : tagEles) {
+      String text = ele.text();
+      tags.add(text);
+    }
+    this.tags = tags;
+    doc.getElementsByTag("script").remove();
+    this.content = doc.select(CSDNBlog.CSDN_CHOICE_CSS).toString();
   }
 
-  @Override
-  public String convert(URL url) throws IOException {
-    return super.convert(url, CSDN_CHOICE_CSS, CSDN_REMOVE_CSS);
-  }
 
-  @Override
-  public void buildHexo() throws IOException {
-    StringBuffer sb = super.getHexoDesc();
-    sb.append(HTML2Md.convertHtml2Content(this.getContent(), "UTF-8", CSDN_CHOICE_CSS,
-        CSDN_REMOVE_CSS));
-    IOUtils.write(sb.toString(), new FileOutputStream(
-        new File(TARGET_DIR + File.separator + this.getTitle() + ".md")));
-  }
 }

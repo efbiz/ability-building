@@ -3,8 +3,8 @@ package org.efbiz.service;
 import org.efbiz.factory.BlogFactory;
 import org.efbiz.model.Blog;
 import org.efbiz.model.CSDNBlog;
-import org.efbiz.util.HTML2Md;
 import org.apache.commons.io.IOUtils;
+import org.efbiz.util.FilesUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -27,6 +27,8 @@ import java.util.*;
  */
 @Service
 public class Blog2mdService {
+
+  public final static String COMMON_TARGET_DIR = "D:\\data";
 
   @Autowired
   private BlogFactory blogFactory;
@@ -58,17 +60,16 @@ public class Blog2mdService {
     Set<String> strings = map.keySet();
     for (String item : strings) {
       Blog blog = blogFactory.translateBLog(new URL(item));
-      blog.buildHexo();
+      saveMdFile(blog);
     }
   }
 
-  public String convert(URL url) throws IOException {
-    Blog blog = blogFactory.translateBLog(url);
-    blog.buildHexo();
-    return blog.convert(url);
+  public void saveMdFile(Blog blog) throws IOException {
+    System.out.println("保存博文--->[" + blog.getTitle() + "]");
+    StringBuffer sb = blog.getHexoDesc();
+    sb.append(blog.getMdContent());
+    FilesUtil.newFile(COMMON_TARGET_DIR + File.separator + blog.getTitle() + ".md",sb.toString(),false);
   }
 
-  public String convert(String html) {
-    return new Blog().convert(html);
-  }
+
 }
