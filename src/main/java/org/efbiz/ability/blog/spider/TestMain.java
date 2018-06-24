@@ -1,6 +1,6 @@
-package org.efbiz;
+package org.efbiz.ability.blog.spider;
 
-import org.efbiz.util.HTML2Md;
+import org.efbiz.ability.blog.spider.util.HTML2Md;
 
 import java.io.IOException;
 

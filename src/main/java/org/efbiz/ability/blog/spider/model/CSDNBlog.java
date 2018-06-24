@@ -1,20 +1,17 @@
-package org.efbiz.model;
+package org.efbiz.ability.blog.spider.model;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.apache.commons.io.IOUtils;
-import org.efbiz.util.DateUtil;
-import org.efbiz.util.HTML2Md;
+import org.efbiz.ability.blog.spider.util.DateUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = false)

@@ -107,7 +107,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>org.efbiz.Application</mainClass>
+                    <mainClass>org.efbiz.ability.blog.spider.Application</mainClass>
                 </configuration>
             </plugin>
             <plugin>

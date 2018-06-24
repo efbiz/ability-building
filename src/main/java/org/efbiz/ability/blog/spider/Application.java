@@ -1,4 +1,4 @@
-package org.efbiz;
+package org.efbiz.ability.blog.spider;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

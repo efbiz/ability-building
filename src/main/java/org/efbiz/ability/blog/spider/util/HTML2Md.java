@@ -1,14 +1,5 @@
-package org.efbiz.util;
+package org.efbiz.ability.blog.spider.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,6 +11,12 @@ import org.jsoup.parser.Tag;
 import org.jsoup.safety.Cleaner;
 import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 
 public class HTML2Md {
 
@@ -416,6 +413,15 @@ public class HTML2Md {
     line.append("]");
     line.append("(");
     String url = element.attr("href");
+//    try {
+//      Blog blog = BlogFactory.getInstance().translateBLog(new URL(url));
+//      StringBuffer sb = blog.getHexoDesc();
+//      sb.append(blog.getMdContent());
+//      FilesUtil.newFile(Blog2mdService.COMMON_TARGET_DIR + File.separator + blog.getTitle() + ".md",sb.toString(),false);
+//
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
     line.append(url);
     String title = element.attr("title");
     if (!title.equals("")) {
@@ -435,6 +441,12 @@ public class HTML2Md {
     line.append("]");
     line.append("(");
     String url = element.attr("src");
+//    if(StringUtils.isBlank(url)){
+//      String urlTmp = FilesUtil.downloadImage(Blog2mdService.COMMON_TARGET_DIR,url);
+//      if(StringUtils.isNoneBlank(urlTmp)){
+//        url = urlTmp;
+//      }
+//    }
     line.append(url);
     String title = element.attr("title");
     if (!title.equals("")) {

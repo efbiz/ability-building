@@ -1,20 +1,16 @@
-package org.efbiz.model;
+package org.efbiz.ability.blog.spider.model;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.io.IOUtils;
-import org.efbiz.util.DateUtil;
-import org.efbiz.util.HTML2Md;
+import org.efbiz.ability.blog.spider.util.DateUtil;
+import org.efbiz.ability.blog.spider.util.JsoupUtil;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import lombok.Data;
-import org.efbiz.util.JsoupUtil;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 /**
  * @Author: wangxc

@@ -1,20 +1,15 @@
-package org.efbiz.util;
+package org.efbiz.ability.blog.spider.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import org.apache.commons.lang3.StringUtils;
+import org.efbiz.ability.blog.spider.service.Blog2mdService;
+
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * FilesUtil
@@ -870,5 +865,69 @@ public class FilesUtil {
       }
     }
     return isSucceed;
+  }
+
+ public  static  String getFileNameFromURL (String  url){
+   String suffixes="avi|mpeg|3gp|mp3|mp4|wav|jpeg|gif|jpg|png|apk|exe|pdf|rar|zip|docx|doc";
+   //正则判断
+   Pattern pat=Pattern.compile("[\\w]+[\\.]("+suffixes+")");
+   //条件匹配
+   Matcher mc=pat.matcher(url);
+   String substring = null;
+   while(mc.find()){
+     //截取文件名后缀名
+       substring = mc.group();
+   }
+   return  substring;
+ }
+
+  public static String downloadImage(String imageName,String urlPathStr){
+    if(StringUtils.isBlank(imageName)){
+      imageName =  getFileNameFromURL(urlPathStr);
+    }
+    if(StringUtils.isBlank(imageName)){
+      return null;
+    }
+    FileOutputStream out   = null;
+    InputStream in = null;
+    boolean flag = false;
+    try {
+      //获取URL
+      URL url = new URL(urlPathStr);
+
+      //获取连接
+      URLConnection conn  = url.openConnection();
+      //设定连接的属性
+      conn.setRequestProperty("accept", "*/*");
+      conn.setRequestProperty("conn", "Keep-Alive");
+      conn.setRequestProperty("user-agent",
+              "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+      //百度
+      //Baiduspider+(+http://www.baidu.com/search/spider.htm)
+      //火狐
+      //Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)
+      //设定 ip 设定成百度的
+      conn.setRequestProperty("X-Forwarded-For", "117.28.255.37");
+      conn.setRequestProperty("Client-Ip", "117.28.255.37");
+
+      in = conn.getInputStream();
+
+      out = new FileOutputStream( Blog2mdService.COMMON_TARGET_DIR +imageName);
+      byte [] buff = new byte[1024];
+      int len = 0;
+      while((len = in.read(buff))!= -1){
+        //写数据
+        out.write(buff, 0, len);
+      }
+      flag = true;
+    } catch(FileNotFoundException e1){
+      //System.err.println("------图片没有 找到---------");
+      flag = false;
+    }catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+      flag = false;
+    }
+    return imageName;
   }
 }

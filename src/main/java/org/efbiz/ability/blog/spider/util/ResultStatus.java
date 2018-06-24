@@ -1,4 +1,4 @@
-package org.efbiz.util;
+package org.efbiz.ability.blog.spider.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

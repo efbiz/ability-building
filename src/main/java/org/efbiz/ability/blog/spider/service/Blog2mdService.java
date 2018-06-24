@@ -1,22 +1,21 @@
-package org.efbiz.service;
+package org.efbiz.ability.blog.spider.service;
 
-import org.efbiz.factory.BlogFactory;
-import org.efbiz.model.Blog;
-import org.efbiz.model.CSDNBlog;
-import org.apache.commons.io.IOUtils;
-import org.efbiz.util.FilesUtil;
+import org.efbiz.ability.blog.spider.factory.BlogFactory;
+import org.efbiz.ability.blog.spider.model.Blog;
+import org.efbiz.ability.blog.spider.model.CSDNBlog;
+import org.efbiz.ability.blog.spider.util.FilesUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @Author: wangxc
@@ -30,8 +29,8 @@ public class Blog2mdService {
 
   public final static String COMMON_TARGET_DIR = "D:\\data";
 
-  @Autowired
-  private BlogFactory blogFactory;
+
+  private BlogFactory blogFactory = BlogFactory.getInstance();
 
   public void convertAllCSDNBlogByUserName(String username) throws IOException {
     String url = CSDNBlog.HOST_URL + username + "/article/list/" + 1;

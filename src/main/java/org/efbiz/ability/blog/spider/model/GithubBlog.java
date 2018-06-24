@@ -1,4 +1,4 @@
-package org.efbiz.model;
+package org.efbiz.ability.blog.spider.model;
 
 import java.io.IOException;
 import java.net.URL;

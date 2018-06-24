@@ -1,15 +1,14 @@
-package org.efbiz.controller;
+package org.efbiz.ability.blog.spider.controller;
 
-import org.efbiz.factory.BlogFactory;
-import org.efbiz.model.Blog;
-import org.efbiz.service.Blog2mdService;
-import org.efbiz.util.BaseResp;
-import org.efbiz.util.FilesUtil;
-import org.efbiz.util.JsoupUtil;
-import org.efbiz.util.ParamVo;
-import org.efbiz.util.ResultStatus;
+
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.efbiz.ability.blog.spider.factory.BlogFactory;
+import org.efbiz.ability.blog.spider.model.Blog;
+import org.efbiz.ability.blog.spider.service.Blog2mdService;
+import org.efbiz.ability.blog.spider.util.BaseResp;
+import org.efbiz.ability.blog.spider.util.JsoupUtil;
+import org.efbiz.ability.blog.spider.util.ParamVo;
+import org.efbiz.ability.blog.spider.util.ResultStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,8 +33,8 @@ public class ApiController {
   @Resource
   private Blog2mdService blog2mdService;
 
-  @Autowired
-  private BlogFactory blogFactory;
+
+  private BlogFactory blogFactory = BlogFactory.getInstance();
 
   @RequestMapping(value = "/html2md", method = RequestMethod.GET)
   public String toPage() {
