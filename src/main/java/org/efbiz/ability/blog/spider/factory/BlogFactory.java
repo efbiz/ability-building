@@ -3,6 +3,7 @@ package org.efbiz.ability.blog.spider.factory;
 import lombok.extern.log4j.Log4j2;
 import org.efbiz.ability.blog.spider.model.Blog;
 import org.efbiz.ability.blog.spider.model.CSDNBlog;
+import org.efbiz.ability.blog.spider.model.CnblogsBlog;
 import org.efbiz.ability.blog.spider.model.GithubBlog;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ public class BlogFactory {
 
   public static final String CSDN = "csdn";
   public static final String GITHUB = "github";
-
+  public static final String CNBLOGS = "cnblogs";
   private BlogFactory() {}
 
   private static BlogFactory single=null;
@@ -35,6 +36,8 @@ public class BlogFactory {
       return new CSDNBlog(url);
     } else if (url.getHost().toLowerCase().contains(GITHUB)) {
       return new GithubBlog(url);
+    } else if (url.getHost().toLowerCase().contains(CNBLOGS)) {
+      return new CnblogsBlog(url);
     } else {
       return new Blog(url);
     }

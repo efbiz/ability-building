@@ -79,15 +79,20 @@ public class Blog {
     sb.append("\r\n");
     sb.append("categories:");
     sb.append("\r\n");
-    for (String cat : this.getCategories()) {
-      sb.append("- " + cat);
-      sb.append("\r\n");
+    if(this.getCategories() != null && !this.getCategories().isEmpty()){
+        for (String cat : this.getCategories()) {
+            sb.append("- " + cat);
+            sb.append("\r\n");
+        }
     }
+
     sb.append("tags:");
     sb.append("\r\n");
-    for (String tag : this.getTags()) {
-      sb.append("- " + tag);
-      sb.append("\r\n");
+    if( null != this.getTags() && !this.getTags().isEmpty()){
+        for (String tag : this.getTags()) {
+            sb.append("- " + tag);
+            sb.append("\r\n");
+        }
     }
     sb.append("\r\n");
     sb.append("---");

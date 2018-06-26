@@ -1,5 +1,6 @@
 package org.efbiz.ability.blog.spider.util;
 
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,6 +19,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 
+@Log4j2
 public class HTML2Md {
 
   private static int indentation = -1;
@@ -413,6 +415,7 @@ public class HTML2Md {
     line.append("]");
     line.append("(");
     String url = element.attr("href");
+    log.info(url);
 //    try {
 //      Blog blog = BlogFactory.getInstance().translateBLog(new URL(url));
 //      StringBuffer sb = blog.getHexoDesc();
@@ -458,8 +461,6 @@ public class HTML2Md {
   }
 
   private static void code(Element element, ArrayList<MDLine> lines) {
-//    System.out.println(element);
-//    System.out.println(lines);
     lines.add(new MDLine(MDLine.MDLineType.None, 0, ""));
     MDLine line = new MDLine(MDLine.MDLineType.None, 0, "    ");
 
@@ -503,7 +504,6 @@ public class HTML2Md {
   }
 
   private static void pre(Element element, ArrayList<MDLine> lines) {
-//        System.out.println(element);
     Elements code = element.select("pre");
     for (Element item : code) {
       item.select(".pre-numbering").remove();
